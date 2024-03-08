@@ -8,4 +8,10 @@ RUN echo "Package: firefox*\nPin: release o=LP-PPA-mozillateam\nPin-Priority: 50
 RUN eval ${APT_INSTALL_PRE} firefox ${APT_INSTALL_POST}
 RUN echo "?package(bash):needs=\"X11\" section=\"DockerCustom\" title=\"Firefox\" command=\"firefox\"" >> /usr/share/menu/custom-docker && update-menus
 
-USER dockerUser
+RUN eval ${APT_INSTALL_PRE} nautilus ${APT_INSTALL_POST}
+RUN echo "?package(bash):needs=\"X11\" section=\"DockerCustom\" title=\"Nautilus\" command=\"nautilus\"" >> /usr/share/menu/custom-docker && update-menus
+
+RUN eval ${APT_INSTALL_PRE} ubuntu-gnome-desktop ${APT_INSTALL_POST}
+RUN eval ${APT_INSTALL_PRE} transmission ${APT_INSTALL_POST}
+
+# USER dockerUser

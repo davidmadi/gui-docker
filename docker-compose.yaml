@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  ubuntu:
+    image: bandi13/gui-docker:firefox
+    container_name: ubuntu
+    ports:
+      - 5901:5901
+      - 1337:1337/udp
+      - 6969:6969/udp
+      - 451:451/udp
