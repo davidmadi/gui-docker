@@ -2,7 +2,7 @@ version: '3'
 
 services:
   ubuntu:
-    image: bandi13/gui-docker:firefox
+    image: davidmadi/gui-docker:1.0
     container_name: ubuntu
     ports:
       - 5901:5901
