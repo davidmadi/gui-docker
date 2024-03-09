@@ -9,3 +9,10 @@ services:
       - 1337:1337/udp
       - 6969:6969/udp
       - 451:451/udp
+    volumes:
+      - root:/root
+      - home:/home
+
+volumes:
+  root: {}
+  home: {}
