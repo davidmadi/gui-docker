@@ -51,14 +51,14 @@ resource "aws_ecs_task_definition" "app_task" {
           "protocol": "udp"
         }
       ],
-      "memory": 512,
+      "memory": 1024,
       "cpu": 256
     }
   ]
   DEFINITION
   requires_compatibilities = ["FARGATE"] # use Fargate as the lauch type
   network_mode             = "awsvpc"    # add the awsvpc network mode as this is required for Fargate
-  memory                   = 512         # Specify the memory the container requires
+  memory                   = 1024         # Specify the memory the container requires
   cpu                      = 256         # Specify the CPU the container requires
   execution_role_arn       = aws_iam_role.ecsTaskExecutionRole.arn
 }
@@ -159,7 +159,7 @@ resource "aws_ecs_service" "app_service" {
   cluster         = aws_ecs_cluster.my_cluster.id        # Reference the created Cluster
   task_definition = aws_ecs_task_definition.app_task.arn # Reference the task that the service will spin up
   launch_type     = "FARGATE"
-  desired_count   = 3 # Set up the number of containers to 3
+  desired_count   = 1 # Set up the number of containers to 3
 
   load_balancer {
     target_group_arn = aws_lb_target_group.target_group_2.arn # Reference the target group
