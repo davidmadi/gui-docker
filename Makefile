@@ -31,5 +31,4 @@ terra:
 	terraform apply
 	terraform destroy
 	terraform show
-	terraform destroy
 	terraform state list
