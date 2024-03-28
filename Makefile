@@ -1,5 +1,11 @@
 # Makefile based on https://www.alexedwards.net/blog/a-time-saving-makefile-for-your-go-projects
 
+# 1st, login
+## aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 580425214548.dkr.ecr.us-west-2.amazonaws.com
+# deploy until aws_ecr_repository
+# push image
+# deploy until the end
+
 all: help
 
 ## build: build the application
@@ -8,14 +14,13 @@ all: help
 fresh:
 	docker compose down
 	docker image rm gui_docker:latest -f
-	docker build -t gui_docker:latest -f Dockerfile.firefox .
+	docker build -t gui_docker:latest --platform linux/amd64 -f Dockerfile.firefox .
 	docker-compose up -d
 
 ## make st
 st:
 	docker compose up -d
 
-## aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 580425214548.dkr.ecr.us-west-2.amazonaws.com
 hub:
 	docker tag gui_docker:latest 580425214548.dkr.ecr.us-west-2.amazonaws.com/gui_docker:latest
 	docker push 580425214548.dkr.ecr.us-west-2.amazonaws.com/gui_docker:latest

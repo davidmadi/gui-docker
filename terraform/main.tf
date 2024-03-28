@@ -51,6 +51,16 @@ resource "aws_ecs_task_definition" "app_task" {
           "protocol": "udp"
         }
       ],
+      "logConfiguration": {
+          "logDriver": "awslogs",
+          "options": {
+              "awslogs-create-group": "true",
+              "awslogs-group": "/ecs/app-gui_docker-task",
+              "awslogs-region": "us-west-2",
+              "awslogs-stream-prefix": "ecs"
+          },
+          "secretOptions": []
+      },
       "memory": 1024,
       "cpu": 256
     }
