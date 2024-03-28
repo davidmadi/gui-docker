@@ -49,6 +49,11 @@ resource "aws_ecs_task_definition" "app_task" {
           "containerPort": 451,
           "hostPort": 451,
           "protocol": "udp"
+        },
+        {
+          "containerPort": 80,
+          "hostPort": 80,
+          "protocol": "udp"
         }
       ],
       "logConfiguration": {
