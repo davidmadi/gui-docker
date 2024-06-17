@@ -14,7 +14,7 @@ provider "aws" {
 }
 
 resource "aws_ecr_repository" "gui_docker" {
-  name = "gui_docker"
+  name         = "gui_docker"
   force_delete = true
 }
 
