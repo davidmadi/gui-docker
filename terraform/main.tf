@@ -66,15 +66,15 @@ resource "aws_ecs_task_definition" "app_task" {
           },
           "secretOptions": []
       },
-      "memory": 1024,
-      "cpu": 256
+      "memory": 8192,
+      "cpu": 1024
     }
   ]
   DEFINITION
   requires_compatibilities = ["FARGATE"] # use Fargate as the lauch type
   network_mode             = "awsvpc"    # add the awsvpc network mode as this is required for Fargate
-  memory                   = 1024         # Specify the memory the container requires
-  cpu                      = 256         # Specify the CPU the container requires
+  memory                   = 8192         # Specify the memory the container requires
+  cpu                      = 1024         # Specify the CPU the container requires
   execution_role_arn       = aws_iam_role.ecsTaskExecutionRole.arn
 }
 
