@@ -10,7 +10,7 @@ terraform {
 }
 
 provider "aws" {
-  region = "us-west-2"
+  region = "us-east-1"
 }
 
 resource "aws_ecr_repository" "gui_docker" {
@@ -61,7 +61,7 @@ resource "aws_ecs_task_definition" "app_task" {
           "options": {
               "awslogs-create-group": "true",
               "awslogs-group": "/ecs/app-gui_docker-task",
-              "awslogs-region": "us-west-2",
+              "awslogs-region": "us-east-1",
               "awslogs-stream-prefix": "ecs"
           },
           "secretOptions": []
@@ -108,19 +108,19 @@ resource "aws_default_vpc" "default_vpc" {
 
 resource "aws_default_subnet" "default_subnet_a" {
   # Use your own region here but reference to subnet 1a
-  availability_zone = "us-west-2a"
+  availability_zone = "us-east-1a"
   force_destroy = true
   tags = {
-    Name = "Default subnet for us-west-2a"
+    Name = "Default subnet for us-east-1a"
   }
 }
 
 resource "aws_default_subnet" "default_subnet_b" {
   # Use your own region here but reference to subnet 1a
-  availability_zone = "us-west-2b"
+  availability_zone = "us-east-1b"
   force_destroy = true
   tags = {
-    Name = "Default subnet for us-west-2b"
+    Name = "Default subnet for us-east-1b"
   }
 }
 
