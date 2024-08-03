@@ -32,6 +32,14 @@ resource "aws_ecs_task_definition" "app_task" {
       "essential": true,
       "portMappings": [
         {
+          "containerPort": 21,
+          "hostPort": 21
+        },
+        {
+          "containerPort": 20,
+          "hostPort": 20
+        },
+        {
           "containerPort": 5901,
           "hostPort": 5901
         },
