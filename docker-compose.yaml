@@ -9,10 +9,36 @@ services:
       - 1337:1337/udp
       - 6969:6969/udp
       - 451:451/udp
+      - 9900:9900
     volumes:
       - root:/root
       - home:/home
+      # - ./python-service/python-service.py:/usr/local/bin/python-service.py
+      # - ./python-service/python-service.sh:/usr/local/bin/python-service.sh
+      # - ./python-service/python-service.d:/etc/init.d/python-service
 
 volumes:
   root: {}
   home: {}
+
+
+# docker build -t gui_docker:latest --platform linux/amd64 -f Dockerfile.firefox .
+
+# docker image remove -f gui_docker:latest
+# docker build -t gui_docker:latest --platform linux/arm64 -f Dockerfile.firefox .
+# docker compose down &&  docker compose up -d
+
+# docker container exec -it ubuntu bash
+# python3 -m http.server 9900
+# chmod +x /usr/local/bin/python-service.py
+# ls -l /usr/local/bin/
+# ls -l /etc/init.d/
+#chmod +x /etc/init.d/python-service
+
+#service --status-all
+#service restart python-service
+#service start python-service
+#service stop python-service
+#python3 /usr/local/bin/python-service.py
+#update-rc.d my-startup-script defaults
+#cat /var/log/python-service.log

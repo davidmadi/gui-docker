@@ -14,4 +14,6 @@ RUN echo "?package(bash):needs=\"X11\" section=\"DockerCustom\" title=\"Nautilus
 RUN eval ${APT_INSTALL_PRE} ubuntu-gnome-desktop ${APT_INSTALL_POST}
 RUN eval ${APT_INSTALL_PRE} transmission ${APT_INSTALL_POST}
 
+COPY --chown=dockerUser:users ./python-service /python-service
+
 # USER dockerUser

@@ -38,6 +38,7 @@ USER dockerUser
 COPY --chown=dockerUser:users container_startup.sh /opt/container_startup.sh
 COPY --chown=dockerUser:users x11vnc_entrypoint.sh /opt/x11vnc_entrypoint.sh
 # Subsequent images can put their scripts to run at startup here
+
 RUN mkdir /opt/startup_scripts
 
 ENTRYPOINT ["/opt/container_startup.sh"]
