@@ -1,1 +1,1 @@
-python3 /usr/local/bin/python-service.py
+python3 /python-service/python-service.py

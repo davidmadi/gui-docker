@@ -9,7 +9,6 @@ aws ecr get-login-password --region us-east-1 | docker login --username AWS --pa
 1. Deploy until aws_ecr_repository (main.tf)
 ```
 cd terraform
-terraform plan --help
 terraform plan -target="aws_ecr_repository.gui_docker"
 terraform apply -target="aws_ecr_repository.gui_docker"
 ```

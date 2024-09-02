@@ -5,8 +5,12 @@ import socketserver
 
 PORT = 9900  # You can change the port if needed
 
-Handler = http.server.SimpleHTTPRequestHandler
-
-with socketserver.TCPServer(("", PORT), Handler) as httpd:
-    print(f"Serving at port {PORT}")
+from http.server import ThreadingHTTPServer, SimpleHTTPRequestHandler
+def run(server_class=ThreadingHTTPServer, handler_class=SimpleHTTPRequestHandler):
+    server_address = ('', PORT)
+    httpd = server_class(server_address, handler_class)
     httpd.serve_forever()
+
+
+if __name__ == "__main__":
+    run()    
