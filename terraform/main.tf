@@ -1,3 +1,4 @@
+# add: listener_2
 terraform {
   required_providers {
     aws = {
@@ -128,17 +129,7 @@ resource "aws_default_subnet" "default_subnet_b" {
   }
 }
 
-resource "aws_alb" "application_load_balancer" {
-  name               = "load-balancer-dev" # Naming our load balancer
-  load_balancer_type = "application"
-  subnets = [ # Referencing the default subnets
-    "${aws_default_subnet.default_subnet_a.id}", "${aws_default_subnet.default_subnet_b.id}"
-  ]
-  # Referencing the security group
-  security_groups = ["${aws_security_group.load_balancer_security_group.id}"]
-}
-
-resource "aws_security_group" "load_balancer_security_group" {
+resource "aws_security_group" "load_balancer_security_group_1" {
   description = "aws load balance security group 1"
   ingress {
     from_port   = 5901
@@ -154,24 +145,44 @@ resource "aws_security_group" "load_balancer_security_group" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
+resource "aws_alb" "application_load_balancer" {
+  name               = "load-balancer-dev" # Naming our load balancer
+  load_balancer_type = "application"
+  subnets = [ # Referencing the default subnets
+    "${aws_default_subnet.default_subnet_a.id}", "${aws_default_subnet.default_subnet_b.id}"
+  ]
+  # Referencing the security group
+  security_groups = ["${aws_security_group.load_balancer_security_group_1.id}"]
+}
 
-resource "aws_lb_target_group" "target_group_2" {
-  name        = "target-group-2"
+
+resource "aws_lb_target_group" "target_group_1" {
+  name        = "target-group-1"
   port        = 5901
   protocol    = "HTTP"
   target_type = "ip"
   vpc_id      = aws_default_vpc.default_vpc.id # Referencing the default VPC
 }
 
-resource "aws_lb_listener" "listener" {
+resource "aws_lb_listener" "listener_1" {
   load_balancer_arn = aws_alb.application_load_balancer.arn # Referencing our load balancer
   port              = "5901"
   protocol          = "HTTP"
   default_action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.target_group_2.arn # Referencing our tagrte group
+    target_group_arn = aws_lb_target_group.target_group_1.arn # Referencing our tagrte group
   }
 }
+
+# resource "aws_lb_listener" "listener_2" {
+#   load_balancer_arn = aws_alb.application_load_balancer.arn # Referencing our load balancer
+#   port              = "9900"
+#   protocol          = "HTTP"
+#   default_action {
+#     type             = "forward"
+#     target_group_arn = aws_lb_target_group.target_group_1.arn # Referencing our tagrte group
+#   }
+# }
 
 resource "aws_ecs_service" "app_service" {
   name            = "app-first-service"                  # Name the  service
@@ -181,7 +192,7 @@ resource "aws_ecs_service" "app_service" {
   desired_count   = 1 # Set up the number of containers to 3
 
   load_balancer {
-    target_group_arn = aws_lb_target_group.target_group_2.arn # Reference the target group
+    target_group_arn = aws_lb_target_group.target_group_1.arn # Reference the target group
     container_name   = aws_ecs_task_definition.app_task.family
     container_port   = 5901 # Specify the container port
   }
@@ -200,7 +211,7 @@ resource "aws_security_group" "service_security_group" {
     to_port   = 0
     protocol  = "-1"
     # Only allowing traffic in from the load balancer security group
-    security_groups = ["${aws_security_group.load_balancer_security_group.id}"]
+    security_groups = ["${aws_security_group.load_balancer_security_group_1.id}"]
   }
 
   egress {

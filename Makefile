@@ -24,8 +24,8 @@ fresh:
 	docker build -t gui_docker:latest --platform linux/amd64 -f Dockerfile.firefox .
 	docker-compose up -d
 
-## make st
-st:
+## make local
+local:
 	docker compose up -d
 
 ## export AWS_ACCESS_KEY_ID=
@@ -40,3 +40,12 @@ terra:
 	terraform destroy
 	terraform show
 	terraform state list
+
+terra_repo:
+	terraform plan -target=aws_ecr_repository.gui_docker
+	terraform apply -target=aws_ecr_repository.gui_docker
+	docker push 580425214548.dkr.ecr.us-east-1.amazonaws.com/gui_docker:latest
+	
+terra_deploy:
+	terraform plan
+	terraform apply
