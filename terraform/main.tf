@@ -130,14 +130,8 @@ resource "aws_default_subnet" "default_subnet_b" {
 }
 
 resource "aws_security_group" "load_balancer_security_group_1" {
-  description = "aws load balance security group 1"
-  ingress {
-    from_port   = 5901
-    to_port     = 5901
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"] # Allowing traffic in from all sources
-  }
-
+  description = "aws load balance security group 1" 
+  
   egress {
     from_port   = 0
     to_port     = 0
@@ -145,6 +139,23 @@ resource "aws_security_group" "load_balancer_security_group_1" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
+
+resource "aws_vpc_security_group_ingress_rule" "allow_tls_ipv4_one" {
+  security_group_id = aws_security_group.load_balancer_security_group_1.id
+  cidr_ipv4         = "0.0.0.0/0"
+  from_port         = 5901
+  ip_protocol       = "tcp"
+  to_port           = 5901
+}
+
+resource "aws_vpc_security_group_ingress_rule" "allow_tls_ipv4_two" {
+  security_group_id = aws_security_group.load_balancer_security_group_1.id
+  cidr_ipv4         = "0.0.0.0/0"
+  from_port         = 9900
+  ip_protocol       = "tcp"
+  to_port           = 9900
+}
+
 resource "aws_alb" "application_load_balancer" {
   name               = "load-balancer-dev" # Naming our load balancer
   load_balancer_type = "application"
@@ -213,7 +224,8 @@ resource "aws_ecs_service" "app_service" {
 }
 
 resource "aws_security_group" "service_security_group" {
-  description = "aws service security group 100"
+  description = "aws service security group MAIN"
+  vpc_id      = aws_default_vpc.default_vpc.id
   ingress {
     from_port = 0
     to_port   = 0
