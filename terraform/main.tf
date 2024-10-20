@@ -164,6 +164,14 @@ resource "aws_lb_target_group" "target_group_1" {
   vpc_id      = aws_default_vpc.default_vpc.id # Referencing the default VPC
 }
 
+resource "aws_lb_target_group" "target_group_2" {
+  name        = "target-group-2"
+  port        = 9900
+  protocol    = "HTTP"
+  target_type = "ip"
+  vpc_id      = aws_default_vpc.default_vpc.id # Referencing the default VPC
+}
+
 resource "aws_lb_listener" "listener_1" {
   load_balancer_arn = aws_alb.application_load_balancer.arn # Referencing our load balancer
   port              = "5901"
@@ -174,15 +182,15 @@ resource "aws_lb_listener" "listener_1" {
   }
 }
 
-# resource "aws_lb_listener" "listener_2" {
-#   load_balancer_arn = aws_alb.application_load_balancer.arn # Referencing our load balancer
-#   port              = "9900"
-#   protocol          = "HTTP"
-#   default_action {
-#     type             = "forward"
-#     target_group_arn = aws_lb_target_group.target_group_1.arn # Referencing our tagrte group
-#   }
-# }
+resource "aws_lb_listener" "listener_2" {
+  load_balancer_arn = aws_alb.application_load_balancer.arn # Referencing our load balancer
+  port              = "9900"
+  protocol          = "HTTP"
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.target_group_2.arn # Referencing our tagrte group
+  }
+}
 
 resource "aws_ecs_service" "app_service" {
   name            = "app-first-service"                  # Name the  service
