@@ -15,6 +15,9 @@ push:
 	docker tag gui_docker:latest 580425214548.dkr.ecr.us-east-1.amazonaws.com/gui_docker:latest
 	docker push 580425214548.dkr.ecr.us-east-1.amazonaws.com/gui_docker:latest
 
+rebuild:
+	docker image remove gui_docker:latest
+	docker build -t gui_docker:latest --platform linux/amd64 -f Dockerfile.firefox .
 ## build: build the application
 ## docker image rm ubuntu-ubuntu -f
 ## make fresh

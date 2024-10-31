@@ -10,19 +10,23 @@ aws ecr get-login-password --region us-east-1 | docker login --username AWS --pa
 ```
 cd terraform
 terraform plan -target="aws_ecr_repository.gui_docker"
-terraform apply -target="aws_ecr_repository.gui_docker"
+terraform apply -auto-approve -target="aws_ecr_repository.gui_docker" 
 ```
 ## Push image
 ```
 cd ..
+make rebuild
 make push
 ```
 2. Deploy the rest (run multiple times if needed)
 ```
 cd terraform
 terraform plan
-terraform apply
+terraform apply -auto-approve
 ```
+
+### Add registered target to target-group 2
+### Add same IP but with 9900 port
 
 ## Shuting off
 ```
